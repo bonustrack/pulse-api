@@ -1,0 +1,673 @@
+type Query {
+  discussion(id: String!, indexer: String, block: Int): Discussion
+  discussions(first: Int, skip: Int, orderBy: Discussion_orderBy, orderDirection: OrderDirection, indexer: String, block: Int, where: Discussion_filter): [Discussion!]!
+  statement(id: String!, indexer: String, block: Int): Statement
+  statements(first: Int, skip: Int, orderBy: Statement_orderBy, orderDirection: OrderDirection, indexer: String, block: Int, where: Statement_filter): [Statement!]!
+  vote(id: String!, indexer: String, block: Int): Vote
+  votes(first: Int, skip: Int, orderBy: Vote_orderBy, orderDirection: OrderDirection, indexer: String, block: Int, where: Vote_filter): [Vote!]!
+  _metadata(id: ID!, indexer: String, block: Int): _Metadata
+  _metadatas(first: Int, skip: Int, orderBy: _Metadata_orderBy, orderDirection: OrderDirection, indexer: String, block: Int, where: _Metadata_filter): [_Metadata!]!
+  _checkpoint(id: ID!, indexer: String, block: Int): _Checkpoint
+  _checkpoints(first: Int, skip: Int, orderBy: _Checkpoint_orderBy, orderDirection: OrderDirection, indexer: String, block: Int, where: _Checkpoint_filter): [_Checkpoint!]!
+}
+
+type Discussion {
+  id: String!
+  title: String!
+  body: Text
+  author: String!
+  statement_count: Int!
+  vote_count: Int!
+  created: Int!
+  closed: Boolean!
+  statements: [Statement!]!
+  votes: [Vote!]!
+  _indexer: String!
+}
+
+scalar Text
+
+type Statement {
+  id: String!
+  body: Text!
+  author: String!
+  scores_1: Int!
+  scores_2: Int!
+  scores_3: Int!
+  vote_count: Int!
+  pinned: Boolean!
+  hidden: Boolean!
+  created: Int!
+  discussion_id: Int!
+  statement_id: Int!
+  discussion: Discussion!
+  votes: [Vote!]!
+  _indexer: String!
+}
+
+type Vote {
+  id: String!
+  voter: String!
+  choice: Int!
+  created: Int!
+  discussion_id: Int!
+  statement_id: Int!
+  discussion: Discussion!
+  statement: Statement!
+  _indexer: String!
+}
+
+enum Discussion_orderBy {
+  id
+  title
+  body
+  author
+  statement_count
+  vote_count
+  created
+  closed
+  _indexer
+}
+
+enum OrderDirection {
+  asc
+  desc
+}
+
+input Discussion_filter {
+  id_contains: String
+  id_not_contains: String
+  id_contains_nocase: String
+  id_not_contains_nocase: String
+  id: String
+  id_not: String
+  id_in: [String]
+  id_not_in: [String]
+  title_contains: String
+  title_not_contains: String
+  title_contains_nocase: String
+  title_not_contains_nocase: String
+  title: String
+  title_not: String
+  title_in: [String]
+  title_not_in: [String]
+  body_contains: String
+  body_not_contains: String
+  body_contains_nocase: String
+  body_not_contains_nocase: String
+  author_contains: String
+  author_not_contains: String
+  author_contains_nocase: String
+  author_not_contains_nocase: String
+  author: String
+  author_not: String
+  author_in: [String]
+  author_not_in: [String]
+  statement_count_gt: Int
+  statement_count_gte: Int
+  statement_count_lt: Int
+  statement_count_lte: Int
+  statement_count: Int
+  statement_count_not: Int
+  statement_count_in: [Int]
+  statement_count_not_in: [Int]
+  vote_count_gt: Int
+  vote_count_gte: Int
+  vote_count_lt: Int
+  vote_count_lte: Int
+  vote_count: Int
+  vote_count_not: Int
+  vote_count_in: [Int]
+  vote_count_not_in: [Int]
+  created_gt: Int
+  created_gte: Int
+  created_lt: Int
+  created_lte: Int
+  created: Int
+  created_not: Int
+  created_in: [Int]
+  created_not_in: [Int]
+  closed: Boolean
+  closed_not: Boolean
+  closed_in: [Boolean]
+  closed_not_in: [Boolean]
+  _indexer_contains: String
+  _indexer_not_contains: String
+  _indexer_contains_nocase: String
+  _indexer_not_contains_nocase: String
+  _indexer: String
+  _indexer_not: String
+  _indexer_in: [String]
+  _indexer_not_in: [String]
+}
+
+enum Statement_orderBy {
+  id
+  body
+  author
+  scores_1
+  scores_2
+  scores_3
+  vote_count
+  pinned
+  hidden
+  created
+  discussion_id
+  statement_id
+  discussion
+  _indexer
+}
+
+input Statement_filter {
+  id_contains: String
+  id_not_contains: String
+  id_contains_nocase: String
+  id_not_contains_nocase: String
+  id: String
+  id_not: String
+  id_in: [String]
+  id_not_in: [String]
+  body_contains: String
+  body_not_contains: String
+  body_contains_nocase: String
+  body_not_contains_nocase: String
+  author_contains: String
+  author_not_contains: String
+  author_contains_nocase: String
+  author_not_contains_nocase: String
+  author: String
+  author_not: String
+  author_in: [String]
+  author_not_in: [String]
+  scores_1_gt: Int
+  scores_1_gte: Int
+  scores_1_lt: Int
+  scores_1_lte: Int
+  scores_1: Int
+  scores_1_not: Int
+  scores_1_in: [Int]
+  scores_1_not_in: [Int]
+  scores_2_gt: Int
+  scores_2_gte: Int
+  scores_2_lt: Int
+  scores_2_lte: Int
+  scores_2: Int
+  scores_2_not: Int
+  scores_2_in: [Int]
+  scores_2_not_in: [Int]
+  scores_3_gt: Int
+  scores_3_gte: Int
+  scores_3_lt: Int
+  scores_3_lte: Int
+  scores_3: Int
+  scores_3_not: Int
+  scores_3_in: [Int]
+  scores_3_not_in: [Int]
+  vote_count_gt: Int
+  vote_count_gte: Int
+  vote_count_lt: Int
+  vote_count_lte: Int
+  vote_count: Int
+  vote_count_not: Int
+  vote_count_in: [Int]
+  vote_count_not_in: [Int]
+  pinned: Boolean
+  pinned_not: Boolean
+  pinned_in: [Boolean]
+  pinned_not_in: [Boolean]
+  hidden: Boolean
+  hidden_not: Boolean
+  hidden_in: [Boolean]
+  hidden_not_in: [Boolean]
+  created_gt: Int
+  created_gte: Int
+  created_lt: Int
+  created_lte: Int
+  created: Int
+  created_not: Int
+  created_in: [Int]
+  created_not_in: [Int]
+  discussion_id_gt: Int
+  discussion_id_gte: Int
+  discussion_id_lt: Int
+  discussion_id_lte: Int
+  discussion_id: Int
+  discussion_id_not: Int
+  discussion_id_in: [Int]
+  discussion_id_not_in: [Int]
+  statement_id_gt: Int
+  statement_id_gte: Int
+  statement_id_lt: Int
+  statement_id_lte: Int
+  statement_id: Int
+  statement_id_not: Int
+  statement_id_in: [Int]
+  statement_id_not_in: [Int]
+  discussion_: Statement_Discussion_filter
+  discussion_contains: String
+  discussion_not_contains: String
+  discussion_contains_nocase: String
+  discussion_not_contains_nocase: String
+  discussion: String
+  discussion_not: String
+  discussion_in: [String]
+  discussion_not_in: [String]
+  _indexer_contains: String
+  _indexer_not_contains: String
+  _indexer_contains_nocase: String
+  _indexer_not_contains_nocase: String
+  _indexer: String
+  _indexer_not: String
+  _indexer_in: [String]
+  _indexer_not_in: [String]
+}
+
+input Statement_Discussion_filter {
+  id_contains: String
+  id_not_contains: String
+  id_contains_nocase: String
+  id_not_contains_nocase: String
+  id: String
+  id_not: String
+  id_in: [String]
+  id_not_in: [String]
+  title_contains: String
+  title_not_contains: String
+  title_contains_nocase: String
+  title_not_contains_nocase: String
+  title: String
+  title_not: String
+  title_in: [String]
+  title_not_in: [String]
+  body_contains: String
+  body_not_contains: String
+  body_contains_nocase: String
+  body_not_contains_nocase: String
+  author_contains: String
+  author_not_contains: String
+  author_contains_nocase: String
+  author_not_contains_nocase: String
+  author: String
+  author_not: String
+  author_in: [String]
+  author_not_in: [String]
+  statement_count_gt: Int
+  statement_count_gte: Int
+  statement_count_lt: Int
+  statement_count_lte: Int
+  statement_count: Int
+  statement_count_not: Int
+  statement_count_in: [Int]
+  statement_count_not_in: [Int]
+  vote_count_gt: Int
+  vote_count_gte: Int
+  vote_count_lt: Int
+  vote_count_lte: Int
+  vote_count: Int
+  vote_count_not: Int
+  vote_count_in: [Int]
+  vote_count_not_in: [Int]
+  created_gt: Int
+  created_gte: Int
+  created_lt: Int
+  created_lte: Int
+  created: Int
+  created_not: Int
+  created_in: [Int]
+  created_not_in: [Int]
+  closed: Boolean
+  closed_not: Boolean
+  closed_in: [Boolean]
+  closed_not_in: [Boolean]
+  _indexer_contains: String
+  _indexer_not_contains: String
+  _indexer_contains_nocase: String
+  _indexer_not_contains_nocase: String
+  _indexer: String
+  _indexer_not: String
+  _indexer_in: [String]
+  _indexer_not_in: [String]
+}
+
+enum Vote_orderBy {
+  id
+  voter
+  choice
+  created
+  discussion_id
+  statement_id
+  discussion
+  statement
+  _indexer
+}
+
+input Vote_filter {
+  id_contains: String
+  id_not_contains: String
+  id_contains_nocase: String
+  id_not_contains_nocase: String
+  id: String
+  id_not: String
+  id_in: [String]
+  id_not_in: [String]
+  voter_contains: String
+  voter_not_contains: String
+  voter_contains_nocase: String
+  voter_not_contains_nocase: String
+  voter: String
+  voter_not: String
+  voter_in: [String]
+  voter_not_in: [String]
+  choice_gt: Int
+  choice_gte: Int
+  choice_lt: Int
+  choice_lte: Int
+  choice: Int
+  choice_not: Int
+  choice_in: [Int]
+  choice_not_in: [Int]
+  created_gt: Int
+  created_gte: Int
+  created_lt: Int
+  created_lte: Int
+  created: Int
+  created_not: Int
+  created_in: [Int]
+  created_not_in: [Int]
+  discussion_id_gt: Int
+  discussion_id_gte: Int
+  discussion_id_lt: Int
+  discussion_id_lte: Int
+  discussion_id: Int
+  discussion_id_not: Int
+  discussion_id_in: [Int]
+  discussion_id_not_in: [Int]
+  statement_id_gt: Int
+  statement_id_gte: Int
+  statement_id_lt: Int
+  statement_id_lte: Int
+  statement_id: Int
+  statement_id_not: Int
+  statement_id_in: [Int]
+  statement_id_not_in: [Int]
+  discussion_: Vote_Discussion_filter
+  discussion_contains: String
+  discussion_not_contains: String
+  discussion_contains_nocase: String
+  discussion_not_contains_nocase: String
+  discussion: String
+  discussion_not: String
+  discussion_in: [String]
+  discussion_not_in: [String]
+  statement_: Vote_Statement_filter
+  statement_contains: String
+  statement_not_contains: String
+  statement_contains_nocase: String
+  statement_not_contains_nocase: String
+  statement: String
+  statement_not: String
+  statement_in: [String]
+  statement_not_in: [String]
+  _indexer_contains: String
+  _indexer_not_contains: String
+  _indexer_contains_nocase: String
+  _indexer_not_contains_nocase: String
+  _indexer: String
+  _indexer_not: String
+  _indexer_in: [String]
+  _indexer_not_in: [String]
+}
+
+input Vote_Discussion_filter {
+  id_contains: String
+  id_not_contains: String
+  id_contains_nocase: String
+  id_not_contains_nocase: String
+  id: String
+  id_not: String
+  id_in: [String]
+  id_not_in: [String]
+  title_contains: String
+  title_not_contains: String
+  title_contains_nocase: String
+  title_not_contains_nocase: String
+  title: String
+  title_not: String
+  title_in: [String]
+  title_not_in: [String]
+  body_contains: String
+  body_not_contains: String
+  body_contains_nocase: String
+  body_not_contains_nocase: String
+  author_contains: String
+  author_not_contains: String
+  author_contains_nocase: String
+  author_not_contains_nocase: String
+  author: String
+  author_not: String
+  author_in: [String]
+  author_not_in: [String]
+  statement_count_gt: Int
+  statement_count_gte: Int
+  statement_count_lt: Int
+  statement_count_lte: Int
+  statement_count: Int
+  statement_count_not: Int
+  statement_count_in: [Int]
+  statement_count_not_in: [Int]
+  vote_count_gt: Int
+  vote_count_gte: Int
+  vote_count_lt: Int
+  vote_count_lte: Int
+  vote_count: Int
+  vote_count_not: Int
+  vote_count_in: [Int]
+  vote_count_not_in: [Int]
+  created_gt: Int
+  created_gte: Int
+  created_lt: Int
+  created_lte: Int
+  created: Int
+  created_not: Int
+  created_in: [Int]
+  created_not_in: [Int]
+  closed: Boolean
+  closed_not: Boolean
+  closed_in: [Boolean]
+  closed_not_in: [Boolean]
+  _indexer_contains: String
+  _indexer_not_contains: String
+  _indexer_contains_nocase: String
+  _indexer_not_contains_nocase: String
+  _indexer: String
+  _indexer_not: String
+  _indexer_in: [String]
+  _indexer_not_in: [String]
+}
+
+input Vote_Statement_filter {
+  id_contains: String
+  id_not_contains: String
+  id_contains_nocase: String
+  id_not_contains_nocase: String
+  id: String
+  id_not: String
+  id_in: [String]
+  id_not_in: [String]
+  body_contains: String
+  body_not_contains: String
+  body_contains_nocase: String
+  body_not_contains_nocase: String
+  author_contains: String
+  author_not_contains: String
+  author_contains_nocase: String
+  author_not_contains_nocase: String
+  author: String
+  author_not: String
+  author_in: [String]
+  author_not_in: [String]
+  scores_1_gt: Int
+  scores_1_gte: Int
+  scores_1_lt: Int
+  scores_1_lte: Int
+  scores_1: Int
+  scores_1_not: Int
+  scores_1_in: [Int]
+  scores_1_not_in: [Int]
+  scores_2_gt: Int
+  scores_2_gte: Int
+  scores_2_lt: Int
+  scores_2_lte: Int
+  scores_2: Int
+  scores_2_not: Int
+  scores_2_in: [Int]
+  scores_2_not_in: [Int]
+  scores_3_gt: Int
+  scores_3_gte: Int
+  scores_3_lt: Int
+  scores_3_lte: Int
+  scores_3: Int
+  scores_3_not: Int
+  scores_3_in: [Int]
+  scores_3_not_in: [Int]
+  vote_count_gt: Int
+  vote_count_gte: Int
+  vote_count_lt: Int
+  vote_count_lte: Int
+  vote_count: Int
+  vote_count_not: Int
+  vote_count_in: [Int]
+  vote_count_not_in: [Int]
+  pinned: Boolean
+  pinned_not: Boolean
+  pinned_in: [Boolean]
+  pinned_not_in: [Boolean]
+  hidden: Boolean
+  hidden_not: Boolean
+  hidden_in: [Boolean]
+  hidden_not_in: [Boolean]
+  created_gt: Int
+  created_gte: Int
+  created_lt: Int
+  created_lte: Int
+  created: Int
+  created_not: Int
+  created_in: [Int]
+  created_not_in: [Int]
+  discussion_id_gt: Int
+  discussion_id_gte: Int
+  discussion_id_lt: Int
+  discussion_id_lte: Int
+  discussion_id: Int
+  discussion_id_not: Int
+  discussion_id_in: [Int]
+  discussion_id_not_in: [Int]
+  statement_id_gt: Int
+  statement_id_gte: Int
+  statement_id_lt: Int
+  statement_id_lte: Int
+  statement_id: Int
+  statement_id_not: Int
+  statement_id_in: [Int]
+  statement_id_not_in: [Int]
+  discussion_contains: String
+  discussion_not_contains: String
+  discussion_contains_nocase: String
+  discussion_not_contains_nocase: String
+  discussion: String
+  discussion_not: String
+  discussion_in: [String]
+  discussion_not_in: [String]
+  _indexer_contains: String
+  _indexer_not_contains: String
+  _indexer_contains_nocase: String
+  _indexer_not_contains_nocase: String
+  _indexer: String
+  _indexer_not: String
+  _indexer_in: [String]
+  _indexer_not_in: [String]
+}
+
+"""Core metadata values used internally by Checkpoint"""
+type _Metadata {
+  """example: last_indexed_block"""
+  id: ID!
+  indexer: String!
+  value: String
+}
+
+enum _Metadata_orderBy {
+  id
+  indexer
+  value
+}
+
+input _Metadata_filter {
+  id: ID
+  id_not: ID
+  id_in: [ID]
+  id_not_in: [ID]
+  indexer_contains: String
+  indexer_not_contains: String
+  indexer_contains_nocase: String
+  indexer_not_contains_nocase: String
+  indexer: String
+  indexer_not: String
+  indexer_in: [String]
+  indexer_not_in: [String]
+  value_contains: String
+  value_not_contains: String
+  value_contains_nocase: String
+  value_not_contains_nocase: String
+  value: String
+  value_not: String
+  value_in: [String]
+  value_not_in: [String]
+}
+
+"""Contract and Block where its event is found."""
+type _Checkpoint {
+  """id computed as last 5 bytes of sha256(contract+block)"""
+  id: ID!
+  indexer: String!
+  block_number: Int!
+  contract_address: String!
+}
+
+enum _Checkpoint_orderBy {
+  id
+  indexer
+  block_number
+  contract_address
+}
+
+input _Checkpoint_filter {
+  id: ID
+  id_not: ID
+  id_in: [ID]
+  id_not_in: [ID]
+  indexer_contains: String
+  indexer_not_contains: String
+  indexer_contains_nocase: String
+  indexer_not_contains_nocase: String
+  indexer: String
+  indexer_not: String
+  indexer_in: [String]
+  indexer_not_in: [String]
+  block_number_gt: Int
+  block_number_gte: Int
+  block_number_lt: Int
+  block_number_lte: Int
+  block_number: Int
+  block_number_not: Int
+  block_number_in: [Int]
+  block_number_not_in: [Int]
+  contract_address_contains: String
+  contract_address_not_contains: String
+  contract_address_contains_nocase: String
+  contract_address_not_contains_nocase: String
+  contract_address: String
+  contract_address_not: String
+  contract_address_in: [String]
+  contract_address_not_in: [String]
+}
